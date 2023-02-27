@@ -1,0 +1,3 @@
+﻿  ShaderClass.cpp
+D:\Programing\Opengl\Opengl\ShaderClass.cpp(11,18): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
+  Opengl.vcxproj -> D:\Programing\Opengl\x64\Debug\Opengl.exe
