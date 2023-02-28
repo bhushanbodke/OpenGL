@@ -29,6 +29,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
     <ClCompile Include="stb_Image.cpp" />
+    <ClCompile Include="Tests\TestClearColor.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
@@ -53,6 +54,8 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="ShaderClass.h" />
     <ClInclude Include="stb_Image.h" />
+    <ClInclude Include="Tests\Test.h" />
+    <ClInclude Include="Tests\TestClearColor.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
@@ -120,11 +123,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(solutiondir)Opengl\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(solutiondir)Opengl;$(solutiondir)Opengl\Tests;$(solutiondir)Opengl\Libraries\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(solutiondir)Opengl\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(solutiondir)Opengl\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(solutiondir)Opengl;$(solutiondir)Opengl\Tests;$(solutiondir)Opengl\Libraries\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(solutiondir)Opengl\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

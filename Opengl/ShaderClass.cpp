@@ -14,7 +14,7 @@ std::string get_file_contents(const char* filepath)
         file.read(&contents[0] , contents.size());
         file.close();
 
-        std::cout << contents << std::endl;
+        //std::cout << contents << std::endl;
         return contents;
 
     }
