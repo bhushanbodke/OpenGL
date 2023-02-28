@@ -21,6 +21,10 @@
   <ItemGroup>
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="Libraries\include\Imgui\imgui.cpp" />
+    <ClCompile Include="Libraries\include\Imgui\imgui_demo.cpp" />
+    <ClCompile Include="Libraries\include\Imgui\imgui_draw.cpp" />
+    <ClCompile Include="Libraries\include\Imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
@@ -38,6 +42,13 @@
     <ClInclude Include="Libraries\include\GLFW\glfw3.h" />
     <ClInclude Include="Libraries\include\GLFW\glfw3native.h" />
     <ClInclude Include="Libraries\include\glm\glm.hpp" />
+    <ClInclude Include="Libraries\include\Imgui\imconfig.h" />
+    <ClInclude Include="Libraries\include\Imgui\imgui.h" />
+    <ClInclude Include="Libraries\include\Imgui\imgui_impl_glfw_gl3.h" />
+    <ClInclude Include="Libraries\include\Imgui\imgui_internal.h" />
+    <ClInclude Include="Libraries\include\Imgui\stb_rect_pack.h" />
+    <ClInclude Include="Libraries\include\Imgui\stb_textedit.h" />
+    <ClInclude Include="Libraries\include\Imgui\stb_truetype.h" />
     <ClInclude Include="Libraries\include\stb\stb_image.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="ShaderClass.h" />
@@ -47,7 +58,7 @@
     <ClInclude Include="VBO.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="pngegg.png" />
+    <Image Include="tree.png" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\lib\glfw3.lib" />

@@ -5,10 +5,10 @@ VAO::VAO()
 {
     GLCALL(glGenVertexArrays(1, &ID));
 }
-void VAO::AddAttrib(VBO& vbo , GLuint layout, GLuint type, GLuint stride, void* offset)
+void VAO::AddAttrib(VBO& vbo  , GLuint layout,int count , GLuint type, GLuint stride, void* offset)
 {
     vbo.bind();
-    GLCALL(glVertexAttribPointer(layout, 4, type, GL_FALSE, stride, offset));
+    GLCALL(glVertexAttribPointer(layout,count, type, GL_FALSE, stride, offset));
     GLCALL(glEnableVertexAttribArray(layout));
     vbo.unbind();
 }

@@ -2,7 +2,6 @@
 out vec4 FragColor;
 
 // input 
-in vec3 Color;
 
 in vec2 textCoordinate;
 

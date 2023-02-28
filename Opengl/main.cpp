@@ -28,19 +28,21 @@ int main(void)
     // vertices of triangle
     GLfloat vertices1[] = 
     {
-        -0.5f , -0.5f, 0.0f, 1.0f,1.0f,1.0f, 0.0f , 0.0f,
-        -0.5f ,  0.5f, 0.0f, 1.0f,1.0f,1.0f, 0.0f , 1.0f,
-         0.5f ,  0.5f , 0.0f, 1.0f,1.0f,1.0f, 1.0f , 1.0f,
-         0.5f , -0.5f , 0.0f, 1.0f,1.0f,1.0f, 1.0f , 0.0f,
+         100.0f , 100.0f , 0.0f , 0.0f,
+         300.0f , 100.0f, 1.0f , 0.0f,
+         300.0f , 300.0f , 1.0f , 1.0f,
+         100.0f , 300.0f , 0.0f , 1.0f,
     };
 
     GLuint indices1[] =
     {
         0,1,2,
-        0,3,2,
+        2,3,0
     };
-
-    GLFWwindow* window = glfwCreateWindow(800,600,"new window",NULL,NULL);
+    float ScreenWidth, ScreenHeight;
+    ScreenWidth = 960.f;
+    ScreenHeight = 540.f;
+    GLFWwindow* window = glfwCreateWindow(ScreenWidth,ScreenHeight,"new window",NULL,NULL);
     if(window==NULL)
     {
         std::cout<< "failed to create window"<<std::endl;
@@ -50,7 +52,7 @@ int main(void)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
     gladLoadGL();
-    glViewport(0,0,800,600);
+    glViewport(0,0,ScreenWidth,ScreenHeight);
 
     GLCALL(glEnable(GL_BLEND));
     GLCALL(glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA));
@@ -63,28 +65,27 @@ int main(void)
     VBO VBO1(vertices1,sizeof(vertices1));
     EBO EBO1(indices1,sizeof(indices1), 6);
 
-    VAO1.AddAttrib(VBO1,0 ,GL_FLOAT,8*sizeof(GL_FLOAT),(void*)0);
-    VAO1.AddAttrib(VBO1,1 ,GL_FLOAT,8*sizeof(GL_FLOAT),(void*)(3*(sizeof(GL_FLOAT))));
-    VAO1.AddAttrib(VBO1,2 ,GL_FLOAT,8*sizeof(GL_FLOAT),(void*)(6*(sizeof(GL_FLOAT))));
+    VAO1.AddAttrib(VBO1,0,2 ,GL_FLOAT,4*sizeof(GL_FLOAT),(void*)0);
+    VAO1.AddAttrib(VBO1,1 ,2,GL_FLOAT,4*sizeof(GL_FLOAT),(void*)(2*(sizeof(GL_FLOAT))));
     VAO1.unbind();
     VBO1.unbind();
     EBO1.unbind();
     
 
 
-   /* glm::mat4 proj = glm::ortho(-2.0, 2.0, -1.5, 1.5, -1.0, 1.0);
+    glm::mat4 proj = glm::ortho(0.0f , ScreenWidth,0.0f, ScreenHeight, -1.0f, 1.0f);
+    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(200, 0, 0));
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(100, 100, 0));
 
-    shaders.SetUniformMat4("u_MVP", proj);*/
+    glm::mat4 mvp = proj * view * model;
+    shaders.SetUniformMat4("u_mvp", mvp);
 
     Texture  texture("tree.png");
-    //GLCALL(glUniform1f(glGetUniformLocation(shaders.ID, "scale"), 2.0f));
     shaders.SetUniform1i("m_Texture",0);
 
-
     Renderer renderer;
-    float r = 0 ;
-    float  increment = 0.5f;
     glfwSwapBuffers(window);
+
     while (!glfwWindowShouldClose(window))
     {
         renderer.Clear(0.07f, 0.13f , 0.17f ,1.0f);
