@@ -19,6 +19,15 @@
 #include <Imgui/imgui_impl_glfw_gl3.h>
 #include <Tests/TestClearColor.h>
 
+
+void key_callback(GLFWwindow* window, int key,int scancode,int action,int mods)
+{
+    if (key == GLFW_KEY_ESCAPE)
+    {
+        glfwSetWindowShouldClose(window,true);
+    }
+}
+
 int main(void)
 {
 
@@ -30,10 +39,10 @@ int main(void)
     // vertices of triangle
    GLfloat vertices1[] = 
     {
-         0.0f ,   0.0f , 0.0f , 0.0f,
-         100.0f , 0.0f, 1.0f , 0.0f,
-         100.0f , 100.0f , 1.0f , 1.0f,
-         0.0f , 100.0f , 0.0f , 1.0f,
+         -0.5f , -0.5f ,0.0f,  0.0f , 0.0f,
+          0.5f , -0.5f, 0.0f,  1.0f , 0.0f,
+          0.5f  , 0.5f ,0.0f ,  1.0f , 1.0f,
+         -0.5f  , 0.5f ,0.0f ,  0.0f , 1.0f,
     };
 
     GLuint indices1[] =
@@ -45,7 +54,7 @@ int main(void)
     ScreenWidth = 960.f;
     ScreenHeight = 540.f;
     GLFWwindow* window = glfwCreateWindow(ScreenWidth,ScreenHeight,"new window",NULL,NULL);
-    if(window==NULL)
+    if(window==nullptr)
     {
         std::cout<< "failed to create window"<<std::endl;
         glfwTerminate();
@@ -67,21 +76,19 @@ int main(void)
     VBO VBO1(vertices1,sizeof(vertices1));
     EBO EBO1(indices1,sizeof(indices1), 6);
 
-    VAO1.AddAttrib(VBO1,0,2 ,GL_FLOAT,4*sizeof(GL_FLOAT),(void*)0);
-    VAO1.AddAttrib(VBO1,1 ,2,GL_FLOAT,4*sizeof(GL_FLOAT),(void*)(2*(sizeof(GL_FLOAT))));
+    VAO1.AddAttrib(VBO1,0,3 ,GL_FLOAT,5*sizeof(GL_FLOAT),(void*)0);
+    VAO1.AddAttrib(VBO1,1 ,2,GL_FLOAT,5*sizeof(GL_FLOAT),(void*)(3*(sizeof(GL_FLOAT))));
     VAO1.unbind();
     VBO1.unbind();
     EBO1.unbind();
-    
+   
 
-
-    glm::mat4 proj = glm::ortho(0.0f , ScreenWidth,0.0f, ScreenHeight, -1.0f, 1.0f);
     glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
-
-    
 
     Texture  texture("tree.png");
     shaders.SetUniform1i("m_Texture",0);
+
+
 
     Renderer renderer;
     
@@ -91,42 +98,34 @@ int main(void)
 
     glfwSwapBuffers(window);
     glm::vec3 translationA(0, 0, 0);
-    glm::vec3 translationB(100, 0, 0);
-    //float increment = 5.0f;
+    glm::vec3 translationB(0, 0, 0);
 
+    float angle = 0.0f;
     while (!glfwWindowShouldClose(window))
     {
+        angle += 0.5f;
         renderer.Clear(0.2f,0.78f, 0.92f,1.0f);
         renderer.Clear();// clear the color buffer
         ImGui_ImplGlfwGL3_NewFrame();   
 
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
-        glm::mat4 mvp = proj * view * model;
-        shaders.SetUniformMat4("u_mvp", mvp);
+        glfwSetKeyCallback(window, key_callback);
 
         texture.bind();
         
         {
 
-            ImGui::SliderFloat3("TranslationA", &translationA.x, 0.0f, ScreenWidth);        // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::SliderFloat3("TranslationB", &translationB.x, 0.0f, ScreenWidth);        // Edit 1 float using a slider from 0.0f to 1.0f
+            ImGui::SliderFloat3("TranslationB", &translationB.x, -1.0f, 1.0f);        // Edit 1 float using a slider from 0.0f to 1.0f
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         }
 
+        
         {
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
-            glm::mat4 mvp = proj * view * model;
-            shaders.SetUniformMat4("u_mvp", mvp);
-            renderer.Draw(VAO1, EBO1, shaders);
-        }
-        {
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);
-            glm::mat4 mvp = proj * view * model;
+            glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
+            glm::mat4 mvp = rotate;
             shaders.SetUniformMat4("u_mvp", mvp);
             renderer.Draw(VAO1, EBO1, shaders);
         }
 
-        renderer.Draw(VAO1, EBO1, shaders);
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
         glfwSwapBuffers(window);
