@@ -18,13 +18,60 @@
 #include <Imgui/imgui.h>
 #include <Imgui/imgui_impl_glfw_gl3.h>
 #include <Tests/TestClearColor.h>
+#include "KeyBoard.h"
+#include "Mouse.h"
 
 
-void key_callback(GLFWwindow* window, int key,int scancode,int action,int mods)
+
+
+
+void resizeCallback(GLFWwindow* window, int width, int height)
 {
-    if (key == GLFW_KEY_ESCAPE)
+    glViewport(0, 0, width, height);
+}
+
+glm::vec3 translate(0.0f, 0.0f, 0.0f);
+glm::vec3 scale(1.0f, 1.0f, 0.0f);
+glm::mat4 transform = glm::translate(glm::mat4(1.0f), translate);
+glm::mat4 Scale = glm::scale(glm::mat4(1.0f), scale);
+float increment = 0.05f;
+
+void InputHandle()
+{
+    int scroll = Mouse::GetScrollDY();
+    if (scroll > 0)
     {
-        glfwSetWindowShouldClose(window,true);
+        scale += 0.2f;
+       
+    }
+    if(scroll < 0)
+    {
+        scale -= 0.2f;
+        if (scale.x < 1.0f)
+            scale += 0.2f;
+    }
+    Scale = glm::scale(glm::mat4(1.0f), scale);
+
+    // KeyBoard handle
+    if (KeyBoard::key(GLFW_KEY_D))
+    {
+        translate.x += increment;
+        transform = glm::translate(glm::mat4(1.0f), translate);
+    }
+    if (KeyBoard::key(GLFW_KEY_A))
+    {
+        translate.x -= increment;
+        transform = glm::translate(glm::mat4(1.0f), translate);
+    }
+    if (KeyBoard::key(GLFW_KEY_W))
+    {
+        translate.y += increment;
+        transform = glm::translate(glm::mat4(1.0f), translate);
+    }
+    if (KeyBoard::key(GLFW_KEY_S))
+    {
+        translate.y -= increment;
+        transform = glm::translate(glm::mat4(1.0f), translate);
     }
 }
 
@@ -39,10 +86,10 @@ int main(void)
     // vertices of triangle
    GLfloat vertices1[] = 
     {
-         -0.5f , -0.5f ,0.0f,  0.0f , 0.0f,
-          0.5f , -0.5f, 0.0f,  1.0f , 0.0f,
-          0.5f  , 0.5f ,0.0f ,  1.0f , 1.0f,
-         -0.5f  , 0.5f ,0.0f ,  0.0f , 1.0f,
+         -0.2f , -0.5f ,0.0f,  0.0f , 0.0f,
+          0.2f , -0.5f, 0.0f,  1.0f , 0.0f,
+          0.2f  , 0.5f ,0.0f ,  1.0f , 1.0f,
+         -0.2f  , 0.5f ,0.0f ,  0.0f , 1.0f,
     };
 
     GLuint indices1[] =
@@ -50,9 +97,9 @@ int main(void)
         0,1,2,
         2,3,0
     };
-    float ScreenWidth, ScreenHeight;
-    ScreenWidth = 960.f;
-    ScreenHeight = 540.f;
+    
+    float ScreenWidth = 960.0f;
+    float ScreenHeight = 540.f;
     GLFWwindow* window = glfwCreateWindow(ScreenWidth,ScreenHeight,"new window",NULL,NULL);
     if(window==nullptr)
     {
@@ -83,7 +130,6 @@ int main(void)
     EBO1.unbind();
    
 
-    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
     Texture  texture("tree.png");
     shaders.SetUniform1i("m_Texture",0);
@@ -97,9 +143,9 @@ int main(void)
     ImGui::StyleColorsDark();
 
     glfwSwapBuffers(window);
-    glm::vec3 translationA(0, 0, 0);
-    glm::vec3 translationB(0, 0, 0);
+    glfwSetFramebufferSizeCallback(window, resizeCallback);
 
+    glUniform1f(glGetUniformLocation(shaders.ID, "scale"),1.0f);
     float angle = 0.0f;
     while (!glfwWindowShouldClose(window))
     {
@@ -108,20 +154,14 @@ int main(void)
         renderer.Clear();// clear the color buffer
         ImGui_ImplGlfwGL3_NewFrame();   
 
-        glfwSetKeyCallback(window, key_callback);
-
+        glfwSetKeyCallback(window, KeyBoard::KeyCallback);
+        glfwSetCursorPosCallback(window, Mouse::MouseCallback);
+        glfwSetMouseButtonCallback(window, Mouse::MouseButtonCallback);
+        glfwSetScrollCallback(window, Mouse::MouseWheelCallback);
+        InputHandle();
         texture.bind();
-        
         {
-
-            ImGui::SliderFloat3("TranslationB", &translationB.x, -1.0f, 1.0f);        // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        }
-
-        
-        {
-            glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
-            glm::mat4 mvp = rotate;
+            glm::mat4 mvp = Scale * transform;
             shaders.SetUniformMat4("u_mvp", mvp);
             renderer.Draw(VAO1, EBO1, shaders);
         }

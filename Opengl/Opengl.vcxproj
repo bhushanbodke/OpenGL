@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,11 +21,13 @@
   <ItemGroup>
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="Libraries\include\Imgui\imgui.cpp" />
     <ClCompile Include="Libraries\include\Imgui\imgui_demo.cpp" />
     <ClCompile Include="Libraries\include\Imgui\imgui_draw.cpp" />
     <ClCompile Include="Libraries\include\Imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
     <ClCompile Include="stb_Image.cpp" />
@@ -38,6 +40,7 @@
     <ClInclude Include="EBO.h" />
     <ClInclude Include="errorhandle.h" />
     <ClInclude Include="glad.h" />
+    <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Libraries\glm\glm.hpp" />
     <ClInclude Include="Libraries\include\glad\glad.h" />
     <ClInclude Include="Libraries\include\GLFW\glfw3.h" />
@@ -51,6 +54,7 @@
     <ClInclude Include="Libraries\include\Imgui\stb_textedit.h" />
     <ClInclude Include="Libraries\include\Imgui\stb_truetype.h" />
     <ClInclude Include="Libraries\include\stb\stb_image.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="ShaderClass.h" />
     <ClInclude Include="stb_Image.h" />
