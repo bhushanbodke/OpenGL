@@ -30,48 +30,15 @@ void resizeCallback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-glm::vec3 translate(0.0f, 0.0f, 0.0f);
-glm::vec3 scale(1.0f, 1.0f, 0.0f);
-glm::mat4 transform = glm::translate(glm::mat4(1.0f), translate);
-glm::mat4 Scale = glm::scale(glm::mat4(1.0f), scale);
+
 float increment = 0.05f;
 
-void InputHandle()
+void InputHandle(GLFWwindow *window)
 {
-    int scroll = Mouse::GetScrollDY();
-    if (scroll > 0)
+    
+    if (KeyBoard::key(GLFW_KEY_ESCAPE))
     {
-        scale += 0.2f;
-       
-    }
-    if(scroll < 0)
-    {
-        scale -= 0.2f;
-        if (scale.x < 1.0f)
-            scale += 0.2f;
-    }
-    Scale = glm::scale(glm::mat4(1.0f), scale);
-
-    // KeyBoard handle
-    if (KeyBoard::key(GLFW_KEY_D))
-    {
-        translate.x += increment;
-        transform = glm::translate(glm::mat4(1.0f), translate);
-    }
-    if (KeyBoard::key(GLFW_KEY_A))
-    {
-        translate.x -= increment;
-        transform = glm::translate(glm::mat4(1.0f), translate);
-    }
-    if (KeyBoard::key(GLFW_KEY_W))
-    {
-        translate.y += increment;
-        transform = glm::translate(glm::mat4(1.0f), translate);
-    }
-    if (KeyBoard::key(GLFW_KEY_S))
-    {
-        translate.y -= increment;
-        transform = glm::translate(glm::mat4(1.0f), translate);
+        glfwSetWindowShouldClose(window, true);
     }
 }
 
@@ -86,17 +53,51 @@ int main(void)
     // vertices of triangle
    GLfloat vertices1[] = 
     {
-         -0.2f , -0.5f ,0.0f,  0.0f , 0.0f,
-          0.2f , -0.5f, 0.0f,  1.0f , 0.0f,
-          0.2f  , 0.5f ,0.0f ,  1.0f , 1.0f,
-         -0.2f  , 0.5f ,0.0f ,  0.0f , 1.0f,
+     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+
     };
 
-    GLuint indices1[] =
-    {
-        0,1,2,
-        2,3,0
-    };
+   
     
     float ScreenWidth = 960.0f;
     float ScreenHeight = 540.f;
@@ -107,6 +108,8 @@ int main(void)
         glfwTerminate();
         return - 1;
     }
+    
+
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
     gladLoadGL();
@@ -121,53 +124,53 @@ int main(void)
     VAO VAO1;
     VAO1.bind();
     VBO VBO1(vertices1,sizeof(vertices1));
-    EBO EBO1(indices1,sizeof(indices1), 6);
 
     VAO1.AddAttrib(VBO1,0,3 ,GL_FLOAT,5*sizeof(GL_FLOAT),(void*)0);
-    VAO1.AddAttrib(VBO1,1 ,2,GL_FLOAT,5*sizeof(GL_FLOAT),(void*)(3*(sizeof(GL_FLOAT))));
+    VAO1.AddAttrib(VBO1,1,2,GL_FLOAT,5*sizeof(GL_FLOAT),(void*)(3*(sizeof(GL_FLOAT))));
     VAO1.unbind();
     VBO1.unbind();
-    EBO1.unbind();
    
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 3.0f;
+    float angle = 0.0f;
+    
 
+    
 
-    Texture  texture("tree.png");
+   
+    Texture  texture("block.png");
     shaders.SetUniform1i("m_Texture",0);
 
-
+    glEnable(GL_DEPTH_TEST);
 
     Renderer renderer;
     
-    ImGui::CreateContext();
-    ImGui_ImplGlfwGL3_Init(window,true);
-    ImGui::StyleColorsDark();
-
-    glfwSwapBuffers(window);
+    glfwSetKeyCallback(window, KeyBoard::KeyCallback);
+    glfwSetCursorPosCallback(window, Mouse::MouseCallback);
+    glfwSetMouseButtonCallback(window, Mouse::MouseButtonCallback);
+    glfwSetScrollCallback(window, Mouse::MouseWheelCallback);
     glfwSetFramebufferSizeCallback(window, resizeCallback);
 
-    glUniform1f(glGetUniformLocation(shaders.ID, "scale"),1.0f);
-    float angle = 0.0f;
     while (!glfwWindowShouldClose(window))
     {
-        angle += 0.5f;
-        renderer.Clear(0.2f,0.78f, 0.92f,1.0f);
+        angle += increment;
+        renderer.Clear((float)18 / 255, (float)35 / 255,(float)59 / 255, 1.0f);
         renderer.Clear();// clear the color buffer
-        ImGui_ImplGlfwGL3_NewFrame();   
 
-        glfwSetKeyCallback(window, KeyBoard::KeyCallback);
-        glfwSetCursorPosCallback(window, Mouse::MouseCallback);
-        glfwSetMouseButtonCallback(window, Mouse::MouseButtonCallback);
-        glfwSetScrollCallback(window, Mouse::MouseWheelCallback);
-        InputHandle();
+        glm::mat4 model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime() * glm::radians(-55.0f), glm::vec3(-0.5f,-0.5f,0.0f));
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-x,-y,-z));
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)ScreenWidth /(float)ScreenHeight, 0.1f, 100.0f);
+
+       
+        InputHandle(window);
         texture.bind();
-        {
-            glm::mat4 mvp = Scale * transform;
-            shaders.SetUniformMat4("u_mvp", mvp);
-            renderer.Draw(VAO1, EBO1, shaders);
-        }
-
-        ImGui::Render();
-        ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+        
+        glm::mat4 MVP = projection * view * model;
+        shaders.SetUniformMat4("MVP", MVP);
+        
+        renderer.DrawArrays(VAO1,shaders,0,36);
+        VAO1.unbind();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -175,13 +178,10 @@ int main(void)
     //delete
     VAO1.Delete();
     VBO1.Delete();
-    EBO1.Delete();
    
     shaders.Delete();
     texture.Delete(); 
 
-    ImGui_ImplGlfwGL3_Shutdown();
-    ImGui::DestroyContext();
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0 ; 
