@@ -22,12 +22,18 @@
 #include "Mouse.h"
 
 
-
-
+float x = 0.0f;
+float y = 0.0f;
+float z = 3.0f;
+float angle = 0.0f;
+float ScreenWidth = 960.0f;
+float ScreenHeight = 540.f;
 
 void resizeCallback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+    ScreenWidth = width;
+    ScreenHeight = height;
 }
 
 
@@ -35,7 +41,34 @@ float increment = 0.05f;
 
 void InputHandle(GLFWwindow *window)
 {
+    x += Mouse::GetDX() / (ScreenWidth/2);
+    y += Mouse::GetDY() / (ScreenHeight / 2);
     
+    int scrollDy = Mouse::GetScrollDY();
+    if (scrollDy > 0)
+    {
+        z += 0.5f;
+    }
+    if (scrollDy < 0)
+    {
+        z -= 0.5f;
+    }
+    if (KeyBoard::key(GLFW_KEY_A))
+    {
+        x += 0.05f;
+    }
+    if (KeyBoard::key(GLFW_KEY_D))
+    {
+        x -= 0.05f;
+    }
+    if (KeyBoard::key(GLFW_KEY_S))
+    {
+        y += 0.05f;
+    }
+    if (KeyBoard::key(GLFW_KEY_W))
+    {
+        y -= 0.05f;
+    }
     if (KeyBoard::key(GLFW_KEY_ESCAPE))
     {
         glfwSetWindowShouldClose(window, true);
@@ -99,8 +132,7 @@ int main(void)
 
    
     
-    float ScreenWidth = 960.0f;
-    float ScreenHeight = 540.f;
+    
     GLFWwindow* window = glfwCreateWindow(ScreenWidth,ScreenHeight,"new window",NULL,NULL);
     if(window==nullptr)
     {
@@ -130,10 +162,7 @@ int main(void)
     VAO1.unbind();
     VBO1.unbind();
    
-    float x = 0.0f;
-    float y = 0.0f;
-    float z = 3.0f;
-    float angle = 0.0f;
+   
     
 
     

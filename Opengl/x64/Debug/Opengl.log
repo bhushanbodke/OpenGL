@@ -1,6 +1,11 @@
 ﻿  main.cpp
-D:\Programing\Opengl\OpenGL\main.cpp(104,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Programing\Opengl\OpenGL\main.cpp(104,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Programing\Opengl\OpenGL\main.cpp(116,32): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-D:\Programing\Opengl\OpenGL\main.cpp(116,20): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(35,19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(36,20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(44,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(45,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(47,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(136,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(136,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(148,32): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(148,20): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
   Opengl.vcxproj -> D:\Programing\Opengl\x64\Debug\Opengl.exe
