@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include "ShaderClass.h"
+#include <vector>
 #include "VBO.h"
 #include "VAO.h"
 #include "EBO.h"
@@ -26,8 +27,8 @@ float x = 0.0f;
 float y = 0.0f;
 float z = 3.0f;
 float angle = 0.0f;
-float ScreenWidth = 960.0f;
-float ScreenHeight = 540.f;
+int ScreenWidth = 960;
+int ScreenHeight = 540;
 
 void resizeCallback(GLFWwindow* window, int width, int height)
 {
@@ -44,7 +45,7 @@ void InputHandle(GLFWwindow *window)
     x += Mouse::GetDX() / (ScreenWidth/2);
     y += Mouse::GetDY() / (ScreenHeight / 2);
     
-    int scrollDy = Mouse::GetScrollDY();
+    double scrollDy = Mouse::GetScrollDY();
     if (scrollDy > 0)
     {
         z += 0.5f;
@@ -130,9 +131,13 @@ int main(void)
 
     };
 
-   
-    
-    
+    //make fullscreen
+    /*GLFWmonitor* moniter = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(moniter);
+     
+    ScreenWidth = mode->width;
+    ScreenHeight = mode->height;*/
+
     GLFWwindow* window = glfwCreateWindow(ScreenWidth,ScreenHeight,"new window",NULL,NULL);
     if(window==nullptr)
     {
@@ -140,6 +145,11 @@ int main(void)
         glfwTerminate();
         return - 1;
     }
+    //glfwSetWindowMonitor(window, moniter, 0, 0, mode->width, mode->height, mode->refreshRate);
+
+    // Set cursor to hide in window
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
     
 
     glfwMakeContextCurrent(window);
@@ -180,25 +190,41 @@ int main(void)
     glfwSetMouseButtonCallback(window, Mouse::MouseButtonCallback);
     glfwSetScrollCallback(window, Mouse::MouseWheelCallback);
     glfwSetFramebufferSizeCallback(window, resizeCallback);
+    std::vector<glm::vec3> matrix = {
+        glm::vec3(0.0f,  0.0f,  -3.0f),  
+        glm::vec3(2.0f,  5.0f, -15.0f),
+        glm::vec3(-1.5f, -2.2f, -2.5f),
+        glm::vec3(-3.8f, -2.0f, -12.3f),
+        glm::vec3(2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f,  3.0f, -7.5f),
+        glm::vec3(1.3f, -2.0f, -2.5f),
+        glm::vec3(1.5f,  2.0f, -2.5f),
+        glm::vec3(1.5f,  0.2f, -1.5f),
+        glm::vec3(-1.3f,  1.0f, -1.5f)
+
+    };
 
     while (!glfwWindowShouldClose(window))
     {
         angle += increment;
+
         renderer.Clear((float)18 / 255, (float)35 / 255,(float)59 / 255, 1.0f);
         renderer.Clear();// clear the color buffer
-
-        glm::mat4 model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime() * glm::radians(-55.0f), glm::vec3(-0.5f,-0.5f,0.0f));
-        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-x,-y,-z));
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)ScreenWidth /(float)ScreenHeight, 0.1f, 100.0f);
-
-       
-        InputHandle(window);
         texture.bind();
-        
+        for (auto& val : matrix)
+        {
+        glm::mat4 model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime() * glm::radians(-55.0f), glm::vec3(-0.5f,-0.5f,0.0f));
+        glm::mat4 view = glm::translate(glm::mat4(1.0f),val);
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)ScreenWidth /(float)ScreenHeight, 0.1f, 100.0f);
         glm::mat4 MVP = projection * view * model;
         shaders.SetUniformMat4("MVP", MVP);
-        
-        renderer.DrawArrays(VAO1,shaders,0,36);
+
+        renderer.DrawArrays(VAO1, shaders, 0, 36);
+
+        }
+       
+        InputHandle(window);
+       
         VAO1.unbind();
         glfwSwapBuffers(window);
         glfwPollEvents();
