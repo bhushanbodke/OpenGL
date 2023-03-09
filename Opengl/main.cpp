@@ -211,12 +211,23 @@ int main(void)
         renderer.Clear((float)18 / 255, (float)35 / 255,(float)59 / 255, 1.0f);
         renderer.Clear();// clear the color buffer
         texture.bind();
+        //camera circle
+        float radius = 10.0f;
+
         for (auto& val : matrix)
         {
-        glm::mat4 model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime() * glm::radians(-55.0f), glm::vec3(-0.5f,-0.5f,0.0f));
-        glm::mat4 view = glm::translate(glm::mat4(1.0f),val);
+        // model matrix for moving and rotating models
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), val);
+        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(-55.0f), glm::vec3(-0.5f,-0.5f,0.0f));
+        // projection matrix for perspective view
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)ScreenWidth /(float)ScreenHeight, 0.1f, 100.0f);
-        glm::mat4 MVP = projection * view * model;
+        //Camera matrix i.e view matrix
+        float camX = sin(glfwGetTime()) * radius;
+        float camZ = cos(glfwGetTime()) * radius;
+
+        glm::mat4 view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        // resulting MVP
+        glm::mat4 MVP = projection *view * model;
         shaders.SetUniformMat4("MVP", MVP);
 
         renderer.DrawArrays(VAO1, shaders, 0, 36);

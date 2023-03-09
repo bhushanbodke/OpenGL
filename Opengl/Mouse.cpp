@@ -22,7 +22,6 @@ void Mouse::MouseCallback(GLFWwindow* window, double _x, double _y)
 {
     x = _x;
     y = _y;
-    std::cout<< "X : " << x << "| y : " << y << std::endl;
     if (FirstMouse)
     {
         lastx = x;
