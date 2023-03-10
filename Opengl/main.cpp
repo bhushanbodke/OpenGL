@@ -1,26 +1,4 @@
-#include<iostream>
-#include "glad.h"
-#include <GLFW/glfw3.h>
-#include <string>
-#include<fstream>
-#include <iostream>
-#include <sstream>
-#include "ShaderClass.h"
-#include <vector>
-#include "VBO.h"
-#include "VAO.h"
-#include "EBO.h"
-#include "errorhandle.h"
-#include "renderer.h"
-#include  "texture.h"
-#include "glm/glm.hpp"
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <Imgui/imgui.h>
-#include <Imgui/imgui_impl_glfw_gl3.h>
-#include <Tests/TestClearColor.h>
-#include "KeyBoard.h"
-#include "Mouse.h"
+#include "Utils.h"
 
 
 float x = 0.0f;
@@ -29,6 +7,8 @@ float z = 3.0f;
 float angle = 0.0f;
 int ScreenWidth = 960;
 int ScreenHeight = 540;
+float deltaTime = 0.0f;
+float LastFrame = 0.0f;
 
 void resizeCallback(GLFWwindow* window, int width, int height)
 {
@@ -38,37 +18,34 @@ void resizeCallback(GLFWwindow* window, int width, int height)
 }
 
 
-float increment = 0.05f;
+Camera camera({ 0.0f,0.0f,3.0f }, 3.0f, (float)ScreenWidth / ScreenHeight,45.0f, 0.1f, 100.0f);
+
 
 void InputHandle(GLFWwindow *window)
 {
-    x += Mouse::GetDX() / (ScreenWidth/2);
-    y += Mouse::GetDY() / (ScreenHeight / 2);
-    
-    double scrollDy = Mouse::GetScrollDY();
-    if (scrollDy > 0)
-    {
-        z += 0.5f;
-    }
-    if (scrollDy < 0)
-    {
-        z -= 0.5f;
-    }
+    float dx = Mouse::GetDX();
+    float dy = Mouse::GetDY();
+    float scroll = Mouse::GetScrollDY();
+
+    camera.UpdateCameraDir(dx, dy);
+    camera.UpdateZoom(scroll);
+
+
     if (KeyBoard::key(GLFW_KEY_A))
     {
-        x += 0.05f;
+        camera.MoveLeft(deltaTime);
     }
     if (KeyBoard::key(GLFW_KEY_D))
     {
-        x -= 0.05f;
+        camera.MoveRight(deltaTime);
     }
     if (KeyBoard::key(GLFW_KEY_S))
     {
-        y += 0.05f;
+        camera.MoveBack(deltaTime);
     }
     if (KeyBoard::key(GLFW_KEY_W))
     {
-        y -= 0.05f;
+        camera.MoveFront(deltaTime);
     }
     if (KeyBoard::key(GLFW_KEY_ESCAPE))
     {
@@ -148,7 +125,7 @@ int main(void)
     //glfwSetWindowMonitor(window, moniter, 0, 0, mode->width, mode->height, mode->refreshRate);
 
     // Set cursor to hide in window
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     
 
@@ -172,11 +149,6 @@ int main(void)
     VAO1.unbind();
     VBO1.unbind();
    
-   
-    
-
-    
-
    
     Texture  texture("block.png");
     shaders.SetUniform1i("m_Texture",0);
@@ -203,16 +175,24 @@ int main(void)
         glm::vec3(-1.3f,  1.0f, -1.5f)
 
     };
-
+    int Frames = 0.0f;
+    double lastFrame = glfwGetTime();
     while (!glfwWindowShouldClose(window))
     {
-        angle += increment;
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - LastFrame;
+        LastFrame = currentFrame;
+
+        Frames++;
+
+        FPS(currentFrame , lastFrame, Frames);
+
 
         renderer.Clear((float)18 / 255, (float)35 / 255,(float)59 / 255, 1.0f);
         renderer.Clear();// clear the color buffer
+
         texture.bind();
         //camera circle
-        float radius = 10.0f;
 
         for (auto& val : matrix)
         {
@@ -220,18 +200,15 @@ int main(void)
         glm::mat4 model = glm::translate(glm::mat4(1.0f), val);
         model = glm::rotate(model, (float)glfwGetTime() * glm::radians(-55.0f), glm::vec3(-0.5f,-0.5f,0.0f));
         // projection matrix for perspective view
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)ScreenWidth /(float)ScreenHeight, 0.1f, 100.0f);
+        glm::mat4 projection = camera.GetPerspective();
         //Camera matrix i.e view matrix
-        float camX = sin(glfwGetTime()) * radius;
-        float camZ = cos(glfwGetTime()) * radius;
 
-        glm::mat4 view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::mat4 view = camera.GetLookAt();
         // resulting MVP
-        glm::mat4 MVP = projection *view * model;
+        glm::mat4 MVP = projection * view * model;
         shaders.SetUniformMat4("MVP", MVP);
 
         renderer.DrawArrays(VAO1, shaders, 0, 36);
-
         }
        
         InputHandle(window);
@@ -252,3 +229,4 @@ int main(void)
     glfwTerminate();
     return 0 ; 
 }
+
