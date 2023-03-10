@@ -6,10 +6,9 @@ void Renderer::DrawElements(VAO &vao, EBO &ebo, Shader &shader) const
     GLCALL(shader.Activate());
     GLCALL(glDrawElements(GL_TRIANGLES,ebo.count,GL_UNSIGNED_INT,0));
 }
-void Renderer::DrawArrays(VAO& vao, Shader& shader, int start, int total) const
+void Renderer::DrawArrays(VAO& vao, int start, int total) const
 {
     vao.bind();
-    GLCALL(shader.Activate());
     GLCALL(glDrawArrays(GL_TRIANGLES, start , total));
 }
 void Renderer::Clear() const

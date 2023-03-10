@@ -50,21 +50,21 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 
 void Shader::SetUniformMat4(const std::string& name, glm::mat4& matrix)
 {
-    Activate();
     int value = glGetUniformLocation(ID, name.c_str());
-    GLCALL(glUniformMatrix4fv(value, 1, GL_FALSE, &matrix[0][0]));
+    GLCALL(glUniformMatrix4fv(value, 1, GL_FALSE, &matrix[0][0])); 
 }
 
-
+void Shader::SetUnifromVec3(const std::string& name, float f1, float f2, float f3)
+{
+    GLCALL(glUniform3f(glGetUniformLocation(ID, name.c_str()), f1, f2, f3));
+}
 
 void Shader::SetUniform1i(const std::string& name , int i1)
 {
-    Activate();
     GLCALL(glUniform1i(glGetUniformLocation(ID, name.c_str()),i1));
 }
 void Shader::SetUniform4f(const std::string& name, float f1, float f2, float f3, float f4)
 {
-    Activate();
     GLCALL(glUniform4f(glGetUniformLocation(ID, name.c_str()), f1, f2, f3, f4));
 }
 
@@ -72,7 +72,6 @@ void Shader::Activate()
 {
     glUseProgram(ID);
 };
-
 void Shader::Delete()
 {
     glDeleteProgram(ID);
