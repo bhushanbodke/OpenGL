@@ -34,15 +34,35 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
     glShaderSource(vertexShader , 1 ,&vertexShaderSource, NULL);
     glCompileShader(vertexShader);
 
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    };
+
     GLuint FragementShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(FragementShader , 1 , &fragmentShaderSource ,NULL);
     glCompileShader(FragementShader);
+
+    glGetShaderiv(FragementShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(FragementShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    };
 
     // shader program 
     ID = glCreateProgram();
     glAttachShader(ID , vertexShader);
     glAttachShader(ID , FragementShader);
     glLinkProgram(ID);
+    glGetProgramiv(ID, GL_LINK_STATUS, &success);
+    if (!success)
+    {
+        glGetProgramInfoLog(ID, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    }
 
     glDeleteShader(FragementShader);
     glDeleteShader(vertexShader);
@@ -57,6 +77,11 @@ void Shader::SetUniformMat4(const std::string& name, glm::mat4& matrix)
 void Shader::SetUnifromVec3(const std::string& name, float f1, float f2, float f3)
 {
     GLCALL(glUniform3f(glGetUniformLocation(ID, name.c_str()), f1, f2, f3));
+}
+
+void Shader::setUnifrom1F(const std::string& name, float f1)
+{
+    GLCALL(glUniform1f(glGetUniformLocation(ID, name.c_str()), f1));
 }
 
 void Shader::SetUniform1i(const std::string& name , int i1)

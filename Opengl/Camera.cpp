@@ -45,6 +45,17 @@ void Camera::MoveRight(float deltaTime)
 	CamPos += glm::normalize(glm::cross(CamFront, CamUp)) * CamSpeed * deltaTime;
 }
 
+void Camera::MoveUp(float deltaTime)
+{
+	glm::vec3 CamRight = glm::normalize(glm::cross(CamFront, CamUp));
+	CamPos -= glm::normalize(glm::cross(CamFront, CamRight)) * CamSpeed * deltaTime;
+}
+void Camera::MoveDown(float deltaTime)
+{
+	glm::vec3 CamRight = glm::normalize(glm::cross(CamFront, CamUp));
+	CamPos += glm::normalize(glm::cross(CamFront, CamRight)) * CamSpeed * deltaTime;
+}
+
 void Camera::UpdateCameraDir(double dx, double dy)
 {
 	dx *= CamSensitivity;

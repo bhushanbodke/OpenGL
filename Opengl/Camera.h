@@ -28,6 +28,9 @@ public:
 	void MoveBack(float deltaTime);
 	void MoveLeft(float deltaTime);
 	void MoveRight(float deltaTime);
+	void MoveUp(float deltaTime);
+	void MoveDown(float deltaTime);
+
 	void UpdateCameraDir(double dx, double dy);
 	void UpdateZoom(double Scroll);
 };
