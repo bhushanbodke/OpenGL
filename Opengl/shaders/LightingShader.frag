@@ -4,11 +4,11 @@ out vec4 FragColor;
 // input 
 in vec3 FragPos;
 in vec3 Normal;
+in vec2 TextCoord;
 
 struct Material
 {
-    vec3 Ambient;
-    vec3 Diffuse;
+    sampler2D Diffuse;
     vec3 Specular;
     float Shininess;
 };
@@ -36,10 +36,10 @@ void main()
     vec3 norm = normalize(Normal);
     vec3 lightDir =normalize(light.Pos - FragPos);
     float diff = max(dot(norm,lightDir),0.0);
-    vec3 diffuse =  light.Diffuse * (diff * material.Diffuse);
+    vec3 diffuse =  light.Diffuse * diff *vec3(texture(material.Diffuse , TextCoord));
 
     //Ambient Lighting
-    vec3 ambient = light.Ambient * material.Ambient;
+    vec3 ambient = light.Ambient * vec3(texture(material.Diffuse , TextCoord));;
 
     //Specular Lighting
     vec3 viewDir = normalize(viewPos - FragPos);

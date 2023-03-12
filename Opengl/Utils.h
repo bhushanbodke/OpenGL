@@ -26,3 +26,4 @@
 
 
 float FPS(float currentFrame,double& LastFrame, int& frames);
+void ToggleHideMouse(GLFWwindow* window);
