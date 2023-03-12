@@ -2,8 +2,17 @@
 D:\Programing\Opengl\OpenGL\main.cpp(27,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 D:\Programing\Opengl\OpenGL\main.cpp(28,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 D:\Programing\Opengl\OpenGL\main.cpp(29,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programing\Opengl\OpenGL\main.cpp(204,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programing\Opengl\OpenGL\main.cpp(215,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programing\Opengl\OpenGL\main.cpp(276,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Programing\Opengl\OpenGL\main.cpp(277,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(205,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(216,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(243,55): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\Programing\Opengl\OpenGL\main.cpp(244,59): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\Programing\Opengl\OpenGL\main.cpp(282,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Programing\Opengl\OpenGL\main.cpp(283,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  renderer.cpp
+  ShaderClass.cpp
+D:\Programing\Opengl\OpenGL\ShaderClass.cpp(11,18): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
+  Utils.cpp
+D:\Programing\Opengl\OpenGL\Utils.cpp(9,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programing\Opengl\OpenGL\Utils.cpp(11,12): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   Opengl.vcxproj -> D:\Programing\Opengl\x64\Debug\Opengl.exe

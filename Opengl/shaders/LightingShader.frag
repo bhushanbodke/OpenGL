@@ -15,10 +15,15 @@ struct Material
 
 struct Light
 {
-    vec3 Pos;
+    //vec3 Pos;
+    vec3 Vector;
     vec3 Ambient;
     vec3 Diffuse;
     vec3 Specular;
+
+    float constant;
+    float linear;
+    float quadratic;
 };
 
 uniform Light light;
@@ -34,7 +39,7 @@ void main()
 
     // Diffuse Lighting 
     vec3 norm = normalize(Normal);
-    vec3 lightDir =normalize(light.Pos - FragPos);
+    vec3 lightDir =normalize(light.Vector - FragPos);
     float diff = max(dot(norm,lightDir),0.0);
     vec3 diffuse =  light.Diffuse * diff *vec3(texture(material.Diffuse , TextCoord));
 
@@ -47,6 +52,14 @@ void main()
 
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
     vec3 specular = light.Specular * (spec * material.Specular);
+
+    //Attenuation
+    float distance = length(light.Vector - FragPos);
+    float attenuation = 1.0/(light.constant+light.linear*distance+light.quadratic*(distance*distance));
+
+    ambient  *= attenuation;
+    diffuse  *= attenuation;
+    specular *= attenuation;
 
     //result 
     vec3 result = ambient + diffuse + specular; 

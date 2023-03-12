@@ -20,8 +20,8 @@ public:
     void SetUniform1i(const std::string& name , int i1);
     void SetUniform4f(const std::string& name, float f1, float f2, float f3, float f4);
     void SetUniformMat4(const std::string& name , glm::mat4& matrix);
-    void SetUnifromVec3(const std::string& name, float f1, float f2, float f3);
-    void setUnifrom1F(const std::string& name, float f1);
+    void SetUniformVec3(const std::string& name, float f1, float f2, float f3);
+    void SetUniform1F(const std::string& name, float f1);
 
     void Activate();
     void Delete();

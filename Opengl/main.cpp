@@ -194,6 +194,7 @@ int main(void)
         glm::vec3(2.0f,  5.0f, -3.0f),
         glm::vec3(-1.5f, -2.2f, -2.5f),
         glm::vec3(-3.8f, -2.0f, -4.3f),
+        glm::vec3(-3.8f, -2.0f, -9.3f),
         glm::vec3(1.3f, -2.0f, -2.5f),
         glm::vec3(1.5f,  2.0f, -2.5f),
         glm::vec3(1.5f,  0.2f, -1.5f),
@@ -227,15 +228,20 @@ int main(void)
             renderer.Clear();// clear the color buffer
 
             shaders1.Activate();
-            shaders1.SetUnifromVec3("viewPos", camera.CamPos.x, camera.CamPos.y, camera.CamPos.z);
+            shaders1.SetUniformVec3("viewPos", camera.CamPos.x, camera.CamPos.y, camera.CamPos.z);
             shaders1.SetUniform1i("material.Diffuse", 0);
-            shaders1.SetUnifromVec3("material.Specular", 0.628281f, 0.555802f, 0.366065f);
-            shaders1.setUnifrom1F("material.Shininess", Shininess);
+            shaders1.SetUniformVec3("material.Specular", 0.628281f, 0.555802f, 0.366065f);
+            shaders1.SetUniform1F("material.Shininess", Shininess);
             //
-            shaders1.SetUnifromVec3("light.Pos", lightPos.x, lightPos.y, lightPos.z);
-            shaders1.SetUnifromVec3("light.Ambient", 0.2f, 0.2f, 0.2f);
-            shaders1.SetUnifromVec3("light.Diffuse", lightCol.r, lightCol.g, lightCol.b);
-            shaders1.SetUnifromVec3("light.Specular", 1.0f, 1.0f, 1.0f);
+            shaders1.SetUniformVec3("light.Vector", lightPos.x, lightPos.y, lightPos.z);
+            //shaders1.SetUniformVec3("light.Vector", -0.2f, -1.0f, -0.3f);
+            shaders1.SetUniformVec3("light.Ambient", 0.2f, 0.2f, 0.2f);
+            shaders1.SetUniformVec3("light.Diffuse", lightCol.r, lightCol.g, lightCol.b);
+            shaders1.SetUniformVec3("light.Specular", 1.0f, 1.0f, 1.0f);
+
+            shaders1.SetUniform1F("light.constant", 1.0);
+            shaders1.SetUniform1F("light.linear", 0.09);
+            shaders1.SetUniform1F("light.quadratic", 0.032);
 
             block.bind(0);
 
@@ -258,7 +264,7 @@ int main(void)
                 renderer.DrawArrays(VAO1, 0, 36);
             }
             shaders2.Activate();
-            shaders2.SetUnifromVec3("LightColor", lightCol.r, lightCol.g, lightCol.b);
+            shaders2.SetUniformVec3("LightColor", lightCol.r, lightCol.g, lightCol.b);
             glm::mat4 model = glm::translate(glm::mat4(1.0f), lightPos);
             glm::mat4 projection = camera.GetPerspective();
             glm::mat4 view = camera.GetLookAt();
