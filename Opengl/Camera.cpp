@@ -24,36 +24,36 @@ glm::mat4 Camera::GetPerspective()
 	return glm::perspective(glm::radians(FOV), AspectRatio, NearPlane, FarPlane);
 }
 
-void Camera::MoveFront(float deltaTime)
+void Camera::MoveFront(float deltaTime, float SM)
 {
-	CamPos += CamFront * CamSpeed * deltaTime;
+	CamPos += CamFront * CamSpeed * deltaTime * SM;
 }
 
-void Camera::MoveBack(float deltaTime)
+void Camera::MoveBack(float deltaTime, float SM)
 {
-	CamPos -= CamFront * CamSpeed * deltaTime;
+	CamPos -= CamFront * CamSpeed * deltaTime * SM;
 }
 
-void Camera::MoveLeft(float deltaTime)
+void Camera::MoveLeft(float deltaTime, float SM)
 {
-	CamPos -= glm::normalize(glm::cross(CamFront, CamUp)) * CamSpeed * deltaTime;
+	CamPos -= glm::normalize(glm::cross(CamFront, CamUp)) * CamSpeed * deltaTime * SM;
 }
 
 
-void Camera::MoveRight(float deltaTime)
+void Camera::MoveRight(float deltaTime, float SM)
 {
-	CamPos += glm::normalize(glm::cross(CamFront, CamUp)) * CamSpeed * deltaTime;
+	CamPos += glm::normalize(glm::cross(CamFront, CamUp)) * CamSpeed * deltaTime * SM;
 }
 
-void Camera::MoveUp(float deltaTime)
+void Camera::MoveUp(float deltaTime, float SM)
 {
 	glm::vec3 CamRight = glm::normalize(glm::cross(CamFront, CamUp));
-	CamPos -= glm::normalize(glm::cross(CamFront, CamRight)) * CamSpeed * deltaTime;
+	CamPos -= glm::normalize(glm::cross(CamFront, CamRight)) * CamSpeed * deltaTime *SM;
 }
-void Camera::MoveDown(float deltaTime)
+void Camera::MoveDown(float deltaTime, float SM)
 {
 	glm::vec3 CamRight = glm::normalize(glm::cross(CamFront, CamUp));
-	CamPos += glm::normalize(glm::cross(CamFront, CamRight)) * CamSpeed * deltaTime;
+	CamPos += glm::normalize(glm::cross(CamFront, CamRight)) * CamSpeed * deltaTime * SM;
 }
 
 void Camera::UpdateCameraDir(double dx, double dy)

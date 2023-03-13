@@ -4,23 +4,31 @@ float x = 0.0f;
 float y = 0.0f;
 float z = 3.0f;
 float angle = 0.0f;
-int windowWidth = 1280;
+int windowWidth = 1275;
 int windowHeight = 600;
-int ScreenWidth = 960;
-int ScreenHeight =windowHeight;
+int ViewportWidth1 = ((float)75 / 100) * windowWidth;
+int ViewportHeight1 =windowHeight;
+int viewportWidth2 = (windowWidth - ViewportWidth1) < 100?100: (windowWidth - ViewportWidth1);
+int viewportHeight2 = windowHeight;
+bool changeImgui = true;
 float deltaTime = 0.0f;
 float LastFrame = 0.0f;
 
 void resizeCallback(GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, width, height);
-    ScreenWidth = width;
-    ScreenHeight = height;
+    windowWidth = width;
+    windowHeight = height;
+    ViewportWidth1 = ((float)75 / 100) * windowWidth;
+    ViewportHeight1 = windowHeight;
+    viewportWidth2 = (windowWidth - ViewportWidth1) < 100 ? 100 : (windowWidth - ViewportWidth1);
+    viewportHeight2 = windowHeight;
+    glViewport(0, 0, ViewportWidth1, ViewportHeight1);
+    changeImgui = true;
 }
 
 
-Camera camera({ 0.0f,0.0f,3.0f }, 3.0f, (float)ScreenWidth / ScreenHeight,45.0f, 0.1f, 100.0f);
-
+Camera camera({ 0.0f,0.0f,3.0f }, 3.0f, (float)ViewportWidth1 / ViewportHeight1,45.0f, 0.1f, 100.0f);
+float SpeedMultiplier = 1.0f;
 
 void InputHandle(GLFWwindow *window)
 {
@@ -40,31 +48,39 @@ void InputHandle(GLFWwindow *window)
     }
     if (!KeyBoard::key(GLFW_KEY_LEFT_CONTROL))
     {
+        if(KeyBoard::key(GLFW_KEY_LEFT_SHIFT))
+        {
+            SpeedMultiplier = 2.0f;
+        }
+        else
+        {
+            SpeedMultiplier = 1.0f;
+        }
         camera.UpdateCameraDir(dx, dy);
         camera.UpdateZoom(scroll);
         if (KeyBoard::key(GLFW_KEY_SPACE))
         {
-            camera.MoveUp(deltaTime);
+            camera.MoveUp(deltaTime, SpeedMultiplier);
         }
         if (KeyBoard::key(GLFW_KEY_LEFT_ALT))
         {
-            camera.MoveDown(deltaTime);
+            camera.MoveDown(deltaTime, SpeedMultiplier);
         }
         if (KeyBoard::key(GLFW_KEY_A))
         {
-            camera.MoveLeft(deltaTime);
+            camera.MoveLeft(deltaTime , SpeedMultiplier);
         }
         if (KeyBoard::key(GLFW_KEY_D))
         {
-            camera.MoveRight(deltaTime);
+            camera.MoveRight(deltaTime , SpeedMultiplier);
         }
         if (KeyBoard::key(GLFW_KEY_S))
         {
-            camera.MoveBack(deltaTime);
+            camera.MoveBack(deltaTime, SpeedMultiplier);
         }
         if (KeyBoard::key(GLFW_KEY_W))
         {
-            camera.MoveFront(deltaTime);
+            camera.MoveFront(deltaTime, SpeedMultiplier);
         }
         if (KeyBoard::key(GLFW_KEY_ESCAPE))
         {
@@ -148,12 +164,13 @@ int main(void)
     //glfwSetWindowMonitor(window, moniter, 0, 0, mode->width, mode->height, mode->refreshRate);
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetWindowPos(window, 50, 50);
 
 
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
     gladLoadGL();
-    glViewport(0,0,ScreenWidth,ScreenHeight);
+    glViewport(0, 0, ViewportWidth1, ViewportHeight1);
 
     GLCALL(glEnable(GL_BLEND));
     GLCALL(glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA));
@@ -163,6 +180,7 @@ int main(void)
     Shader shaders2("shaders/LightingShader.vert" , "shaders/Light.frag");
     //texture 
     Texture block("woodBlock.png");
+    Texture blockEdge("blockEdge.png");
 
     VAO VAO1;
     VAO1.bind();
@@ -183,6 +201,12 @@ int main(void)
 
     ImGui_ImplGlfwGL3_Init(window, true);
     ImGui::StyleColorsDark();
+
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.WindowRounding = 0.0f;
+
+    ImGui::SetNextWindowPos(ImVec2(ViewportWidth1, 0), ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowSize(ImVec2(viewportWidth2, viewportHeight2), ImGuiCond_FirstUseEver);
 
     glfwSetKeyCallback(window, KeyBoard::KeyCallback);
     glfwSetCursorPosCallback(window, Mouse::MouseCallback);
@@ -205,7 +229,7 @@ int main(void)
     int Frames = 0.0f;
     double lastFrame = glfwGetTime();
     float radius = 5.0f;
-    glm::vec4 backColor(0.0f, 0.0f,0.0f,1.0f);
+    glm::vec4 backColor(0.5f,0.5f,0.5f,1.0f);
 
     glm::vec3 lightPos(0.0f, -0.4f,0.0f);
     glm::vec3 lightCol(1.0f, 1.0f, 1.0f);
@@ -223,27 +247,32 @@ int main(void)
 
         // first view port
         {
-            glViewport(0, 0, ScreenWidth, ScreenHeight);
+            
             renderer.Clear(backColor.r,backColor.g,backColor.b,backColor.a);
             renderer.Clear();// clear the color buffer
 
             shaders1.Activate();
-            shaders1.SetUniformVec3("viewPos", camera.CamPos.x, camera.CamPos.y, camera.CamPos.z);
+            block.bind(0);
+            blockEdge.bind(1);
+
+            shaders1.SetUniformVec3("viewPos", camera.CamPos);
             shaders1.SetUniform1i("material.Diffuse", 0);
-            shaders1.SetUniformVec3("material.Specular", 0.628281f, 0.555802f, 0.366065f);
+            shaders1.SetUniform1i("material.Specular", 1);
             shaders1.SetUniform1F("material.Shininess", Shininess);
             //
-            shaders1.SetUniformVec3("light.Vector", lightPos.x, lightPos.y, lightPos.z);
-            //shaders1.SetUniformVec3("light.Vector", -0.2f, -1.0f, -0.3f);
+            shaders1.SetUniformVec3("light.Pos", camera.CamPos);
+            shaders1.SetUniformVec3("light.Direction", camera.CamFront);
             shaders1.SetUniformVec3("light.Ambient", 0.2f, 0.2f, 0.2f);
-            shaders1.SetUniformVec3("light.Diffuse", lightCol.r, lightCol.g, lightCol.b);
+            shaders1.SetUniformVec3("light.Diffuse", lightCol);
             shaders1.SetUniformVec3("light.Specular", 1.0f, 1.0f, 1.0f);
+            shaders1.SetUniform1F("light.cutoff", glm::cos(glm::radians(20.5f)));
 
-            shaders1.SetUniform1F("light.constant", 1.0);
-            shaders1.SetUniform1F("light.linear", 0.09);
-            shaders1.SetUniform1F("light.quadratic", 0.032);
+            shaders1.SetUniform1F("light.constant", 1.0f);
+            shaders1.SetUniform1F("light.linear", 0.09f);
+            shaders1.SetUniform1F("light.quadratic", 0.032f);
 
-            block.bind(0);
+
+            
 
             for (auto& val : matrix)
             {
@@ -263,26 +292,29 @@ int main(void)
 
                 renderer.DrawArrays(VAO1, 0, 36);
             }
-            shaders2.Activate();
-            shaders2.SetUniformVec3("LightColor", lightCol.r, lightCol.g, lightCol.b);
+            /*shaders2.Activate();
+            shaders2.SetUniformVec3("LightColor", lightCol);
             glm::mat4 model = glm::translate(glm::mat4(1.0f), lightPos);
             glm::mat4 projection = camera.GetPerspective();
             glm::mat4 view = camera.GetLookAt();
             auto MVP = projection * view * model;
             shaders2.SetUniformMat4("MVP", MVP);
-            renderer.DrawArrays(VAO1, 0, 36);
+            renderer.DrawArrays(VAO1, 0, 36);*/
 
         }
-        //Second View port
+        //Imgui View port
 
         {
-            glViewport(ScreenWidth, 0, windowWidth-ScreenWidth, ScreenHeight);
             ImGui_ImplGlfwGL3_NewFrame();
-
-            ImGui::SetNextWindowPos(ImVec2(ScreenWidth, 0));
-            ImGui::SetNextWindowSize(ImVec2(windowWidth-ScreenWidth, 250));
-            static bool value = false;
+            
+            if (changeImgui)
+            {
+                ImGui::SetNextWindowPos(ImVec2(ViewportWidth1, 0));
+                ImGui::SetNextWindowSize(ImVec2(viewportWidth2, viewportHeight2));
+                changeImgui = false;
+            }
             ImGui::Begin("window");
+            
             ImGui::ColorEdit4("BackGround Color", &backColor.r);
             ImGui::ColorEdit3("Light Color", &lightCol.r);
             ImGui::SliderFloat("Shininess", &Shininess, 256.0f, 10.0f);

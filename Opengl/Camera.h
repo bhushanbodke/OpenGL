@@ -24,12 +24,12 @@ public:
 
 	glm::mat4 GetLookAt();
 	glm::mat4 GetPerspective();
-	void MoveFront(float deltaTime);
-	void MoveBack(float deltaTime);
-	void MoveLeft(float deltaTime);
-	void MoveRight(float deltaTime);
-	void MoveUp(float deltaTime);
-	void MoveDown(float deltaTime);
+	void MoveFront(float deltaTime , float SM);
+	void MoveBack(float deltaTime, float SM);
+	void MoveLeft(float deltaTime , float SM);
+	void MoveRight(float deltaTime , float SM);
+	void MoveUp(float deltaTime , float SM);
+	void MoveDown(float deltaTime, float SM);
 
 	void UpdateCameraDir(double dx, double dy);
 	void UpdateZoom(double Scroll);
