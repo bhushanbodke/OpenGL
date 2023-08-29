@@ -176,11 +176,11 @@ int main(void)
     GLCALL(glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA));
 
     // shaders
-    Shader shaders1("shaders/LightingShader.vert", "shaders/LightingShader.frag");
-    Shader shaders2("shaders/LightingShader.vert" , "shaders/Light.frag");
+    Shader shaders1("shaders/default.vert", "shaders/default.frag");
     //texture 
     Texture block("woodBlock.png");
     Texture blockEdge("blockEdge.png");
+    Texture Tree("tree.png");
 
     VAO VAO1;
     VAO1.bind();
@@ -194,6 +194,8 @@ int main(void)
    
 
     glEnable(GL_DEPTH_TEST);
+    // depth test always pass in this 
+    //glDepthFunc(GL_ALWAYS);
 
     Renderer renderer;
     
@@ -254,31 +256,16 @@ int main(void)
             shaders1.Activate();
             block.bind(0);
             blockEdge.bind(1);
+            Tree.bind(2);
 
-            shaders1.SetUniformVec3("viewPos", camera.CamPos);
-            shaders1.SetUniform1i("material.Diffuse", 0);
-            shaders1.SetUniform1i("material.Specular", 1);
-            shaders1.SetUniform1F("material.Shininess", Shininess);
-            //
-            shaders1.SetUniformVec3("light.Pos", camera.CamPos);
-            shaders1.SetUniformVec3("light.Direction", camera.CamFront);
-            shaders1.SetUniformVec3("light.Ambient", 0.2f, 0.2f, 0.2f);
-            shaders1.SetUniformVec3("light.Diffuse", lightCol);
-            shaders1.SetUniformVec3("light.Specular", 1.0f, 1.0f, 1.0f);
-            shaders1.SetUniform1F("light.cutoff", glm::cos(glm::radians(20.5f)));
-
-            shaders1.SetUniform1F("light.constant", 1.0f);
-            shaders1.SetUniform1F("light.linear", 0.09f);
-            shaders1.SetUniform1F("light.quadratic", 0.032f);
-
-
-            
+            shaders1.SetUniform1i("m_Texture1", 0);
+            shaders1.SetUniform1i("m_Texture2", 1);
+            shaders1.SetUniform1i("m_Texture3", 2);
 
             for (auto& val : matrix)
             {
                 // model matrix for moving and rotating models
                 glm::mat4 model = glm::translate(glm::mat4(1.0f), val);
-                //model = glm::rotate(model, (float)glfwGetTime() * glm::radians(-55.0f), glm::vec3(-0.5f, -0.5f, 0.0f));
                 // projection matrix for perspective view
                 glm::mat4 projection = camera.GetPerspective();
                 //Camera matrix i.e view matrix
@@ -288,18 +275,9 @@ int main(void)
                 glm::mat4 MVP = projection * view * model;
 
                 shaders1.SetUniformMat4("MVP", MVP);
-                shaders1.SetUniformMat4("model", model);
 
                 renderer.DrawArrays(VAO1, 0, 36);
             }
-            /*shaders2.Activate();
-            shaders2.SetUniformVec3("LightColor", lightCol);
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), lightPos);
-            glm::mat4 projection = camera.GetPerspective();
-            glm::mat4 view = camera.GetLookAt();
-            auto MVP = projection * view * model;
-            shaders2.SetUniformMat4("MVP", MVP);
-            renderer.DrawArrays(VAO1, 0, 36);*/
 
         }
         //Imgui View port
@@ -325,8 +303,7 @@ int main(void)
             InputHandle(window);
 
         }
-        
-       
+
         VAO1.unbind();
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -337,7 +314,6 @@ int main(void)
     VBO1.Delete();
    
     shaders1.Delete();
-    shaders2.Delete();
 
     block.Delete();
     ImGui_ImplGlfwGL3_Shutdown();
