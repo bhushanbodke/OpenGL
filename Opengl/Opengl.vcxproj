@@ -28,18 +28,20 @@
     <ClCompile Include="Libraries\include\Imgui\imgui_draw.cpp" />
     <ClCompile Include="Libraries\include\Imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="ParticlesSystem.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
     <ClCompile Include="stb_Image.cpp" />
     <ClCompile Include="Tests\TestClearColor.cpp" />
-    <ClCompile Include="texture.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="errorhandle.h" />
     <ClInclude Include="glad.h" />
@@ -57,13 +59,14 @@
     <ClInclude Include="Libraries\include\Imgui\stb_textedit.h" />
     <ClInclude Include="Libraries\include\Imgui\stb_truetype.h" />
     <ClInclude Include="Libraries\include\stb\stb_image.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="renderer.h" />
+    <ClInclude Include="ParticlesSystem.h" />
     <ClInclude Include="ShaderClass.h" />
     <ClInclude Include="stb_Image.h" />
     <ClInclude Include="Tests\Test.h" />
     <ClInclude Include="Tests\TestClearColor.h" />
-    <ClInclude Include="texture.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
@@ -72,14 +75,22 @@
     <Image Include="tree.png" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="Libraries\lib\assimp-vc143-mt.lib" />
     <Library Include="Libraries\lib\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="Libraries\lib\assimp-vc143-mt.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
     <None Include="shaders\default.frag" />
     <None Include="shaders\default.vert" />
-    <None Include="shaders\Light.Frag" />
+    <None Include="shaders\Light.frag" />
     <None Include="shaders\LightingShader.frag" />
     <None Include="shaders\LightingShader.vert" />
+    <None Include="shaders\modelShader.frag" />
+    <None Include="shaders\modelShader.vert" />
+    <None Include="shaders\particle.frag" />
+    <None Include="shaders\particle.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -179,7 +190,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies);assimp-vc143-mt.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -1,4 +1,7 @@
 #include "Utils.h"
+#include "ParticlesSystem.h"
+#include "Model.h"
+#include "Cube.h"
 
 float x = 0.0f;
 float y = 0.0f;
@@ -100,59 +103,8 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
 
     // vertices of triangle
-   GLfloat vertices1[] = 
-    {   
-       //vertex data       // Normals       //text cordinate
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f , 0.0f,
-     0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f , 0.0f, 
-     0.5f,  0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f , 1.0f,
-     0.5f,  0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0  , 1.0f,  
-    -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f , 1.0f,  
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f , 0.0f,
+   
 
-    -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  0.0f , 0.0f,
-     0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  1.0f , 0.0f, 
-     0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  1.0f , 1.0f,
-     0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  1.0  , 1.0f, 
-    -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  0.0f , 1.0f, 
-    -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  0.0f , 0.0f,
-
-    -0.5f,  0.5f,  0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-
-     0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
-     0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
-     0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
-
-    -0.5f, -0.5f, -0.5f, 0.0f,-1.0f, 0.0f,  0.0f, 1.0f,
-     0.5f, -0.5f, -0.5f, 0.0f,-1.0f, 0.0f,  1.0f, 1.0f,
-     0.5f, -0.5f,  0.5f, 0.0f,-1.0f, 0.0f,  1.0f, 0.0f,
-     0.5f, -0.5f,  0.5f, 0.0f,-1.0f, 0.0f,  1.0f, 0.0f,
-    -0.5f, -0.5f,  0.5f, 0.0f,-1.0f, 0.0f,  0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f, 0.0f,-1.0f, 0.0f,  0.0f, 1.0f,
-
-    -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
-     0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
-
-    };
-
-    //make fullscreen
-    /*GLFWmonitor* moniter = glfwGetPrimaryMonitor();
-    const GLFWvidmode* mode = glfwGetVideoMode(moniter);
-     
-    ScreenWidth = mode->width;
-    ScreenHeight = mode->height;*/
 
     GLFWwindow* window = glfwCreateWindow(windowWidth,windowHeight,"Open GL",NULL,NULL);
     if(window==nullptr)
@@ -163,7 +115,7 @@ int main(void)
     }
     //glfwSetWindowMonitor(window, moniter, 0, 0, mode->width, mode->height, mode->refreshRate);
 
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     glfwSetWindowPos(window, 50, 50);
 
 
@@ -176,28 +128,15 @@ int main(void)
     GLCALL(glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA));
 
     // shaders
-    Shader shaders1("shaders/default.vert", "shaders/default.frag");
-    //texture 
-    Texture block("woodBlock.png");
-    Texture blockEdge("blockEdge.png");
-    Texture Tree("tree.png");
+    Shader shader("shaders/LightingShader.vert", "shaders/LightingShader.frag");
+    //texture
+    Shader cubeShader("shaders/default.vert", "shaders/Light.frag");
 
-    VAO VAO1;
-    VAO1.bind();
-    VBO VBO1(vertices1,sizeof(vertices1));
-
-    VAO1.AddAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(GL_FLOAT), (void*)0);
-    VAO1.AddAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(GL_FLOAT), (void*)(3 * sizeof(GL_FLOAT)));
-    VAO1.AddAttrib(VBO1,2,2 ,GL_FLOAT,8*sizeof(GL_FLOAT),(void*)(6 * sizeof(GL_FLOAT)));
-    VAO1.unbind();
-    VBO1.unbind();
-   
+    Model backpack("models/backpack/backpack.obj");
+    Cube cube1;
+    Cube cube2;
 
     glEnable(GL_DEPTH_TEST);
-    // depth test always pass in this 
-    //glDepthFunc(GL_ALWAYS);
-
-    Renderer renderer;
     
     ImGui::CreateContext();
 
@@ -215,28 +154,21 @@ int main(void)
     glfwSetMouseButtonCallback(window, Mouse::MouseButtonCallback);
     glfwSetScrollCallback(window, Mouse::MouseWheelCallback);
     glfwSetFramebufferSizeCallback(window, resizeCallback);
-    std::vector<glm::vec3> matrix = {
-        glm::vec3(0.0f,  0.0f,  -3.0f),  
-        glm::vec3(2.0f,  5.0f, -3.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -4.3f),
-        glm::vec3(-3.8f, -2.0f, -9.3f),
-        glm::vec3(1.3f, -2.0f, -2.5f),
-        glm::vec3(1.5f,  2.0f, -2.5f),
-        glm::vec3(1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -5.5f)
-
-    };
+    
     int Frames = 0.0f;
     double lastFrame = glfwGetTime();
     float radius = 5.0f;
-    glm::vec4 backColor(0.5f,0.5f,0.5f,1.0f);
+    glm::vec4 backColor(0,0,0,1.0f);
 
-    glm::vec3 lightPos(0.0f, -0.4f,0.0f);
+    glm::vec3 lightPos(0.0f, -0.4f, 0.0f);
     glm::vec3 lightCol(1.0f, 1.0f, 1.0f);
 
-    float Shininess = 32.0f;
+    glm::vec3 pointLightPositions[] = {
+        glm::vec3(0.0f,  0.1f, -4.0f),
+        glm::vec3(1.0f,  0.1f, -4.0f),
+    };
+    int rad = 5;
+    float intensity = 1.0f;
     while (!glfwWindowShouldClose(window))
     {
         float currentFrame = glfwGetTime();
@@ -245,43 +177,62 @@ int main(void)
 
         Frames++;
 
-        float fps = FPS(currentFrame, lastFrame, Frames);
+        pointLightPositions[0].x = sin(currentFrame) * rad;
+        pointLightPositions[0].z = cos(currentFrame) * rad;
+
+        pointLightPositions[1].x = sin(currentFrame) * rad;
+        pointLightPositions[1].y = cos(currentFrame) * rad;
+
+        int fps = FPS(currentFrame, lastFrame, Frames);
+        glfwSetWindowTitle(window,("FPS : " + std::to_string(fps) + "  Model Loading").c_str());
+
 
         // first view port
         {
             
-            renderer.Clear(backColor.r,backColor.g,backColor.b,backColor.a);
-            renderer.Clear();// clear the color buffer
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClearColor(backColor.r, backColor.g, backColor.b,backColor.a);
 
-            shaders1.Activate();
-            block.bind(0);
-            blockEdge.bind(1);
-            Tree.bind(2);
 
-            shaders1.SetUniform1i("m_Texture1", 0);
-            shaders1.SetUniform1i("m_Texture2", 1);
-            shaders1.SetUniform1i("m_Texture3", 2);
+            shader.Activate();
+             // model matrix for moving and rotating models
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+            model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+             // projection matrix for perspective view
+             glm::mat4 projection = camera.GetPerspective();
+             //Camera matrix i.e view matrix
+             glm::mat4 view = camera.GetLookAt();
 
-            for (auto& val : matrix)
-            {
-                // model matrix for moving and rotating models
-                glm::mat4 model = glm::translate(glm::mat4(1.0f), val);
-                // projection matrix for perspective view
-                glm::mat4 projection = camera.GetPerspective();
-                //Camera matrix i.e view matrix
+             glm::mat4 mvp = projection * view *  model;
+             shader.SetUniformMat4("MVP", mvp);
+             shader.SetUniformMat4("model",model);
+             shader.SetUniformVec3("viewPos", camera.CamPos);
 
-                glm::mat4 view = camera.GetLookAt();
-                // resulting MVP
-                glm::mat4 MVP = projection * view * model;
+             shader.SetUniform1i("is_DirLights", 0);
+             shader.SetUniform1i("is_PointLights", 1);
+             shader.SetUniformVec3("point_lights[0].Pos", pointLightPositions[0]);
+             shader.SetUniformVec3("point_lights[0].ambient", 0.05f, 0.05f, 0.05f);
+             shader.SetUniformVec3("point_lights[0].diffuse", 0.8f, 0.8f, 0.8f);
+             shader.SetUniformVec3("point_lights[0].specular", 1.0f, 1.0f, 1.0f);
+             shader.SetUniform1F("point_lights[0].intensity", intensity);
 
-                shaders1.SetUniformMat4("MVP", MVP);
+             shader.SetUniformVec3("point_lights[1].Pos", pointLightPositions[1]);
+             shader.SetUniformVec3("point_lights[1].ambient", 0.05f, 0.05f, 0.05f);
+             shader.SetUniformVec3("point_lights[1].diffuse", 0.8f, 0.8f, 0.8f);
+             shader.SetUniformVec3("point_lights[1].specular", 1.0f, 1.0f, 1.0f);
+             shader.SetUniform1F("point_lights[1].intensity", intensity);
 
-                renderer.DrawArrays(VAO1, 0, 36);
-            }
+             backpack.Draw(shader);
 
+             cubeShader.Activate();
+             cube1.Draw(cubeShader, projection * view, pointLightPositions[0], glm::vec3(1.0));
+             cube2.Draw(cubeShader,projection * view,pointLightPositions[1], glm::vec3(1.0));
+             
+
+           
         }
         //Imgui View port
-
         {
             ImGui_ImplGlfwGL3_NewFrame();
             
@@ -294,8 +245,10 @@ int main(void)
             ImGui::Begin("window");
             
             ImGui::ColorEdit4("BackGround Color", &backColor.r);
-            ImGui::ColorEdit3("Light Color", &lightCol.r);
-            ImGui::SliderFloat("Shininess", &Shininess, 256.0f, 10.0f);
+            ImGui::DragFloat("Intensity", &intensity,1.0,0.0,100.0);
+
+            ImGui::Text(("No of Triangles : " + std::to_string(backpack.NoTriangles)).c_str());
+            ImGui::Text(("Draw Calls : " + std::to_string(backpack.GetMeshNo())).c_str());
            
             ImGui::End();
             ImGui::Render();
@@ -303,19 +256,10 @@ int main(void)
             InputHandle(window);
 
         }
-
-        VAO1.unbind();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
     //delete
-    VAO1.Delete();
-    VBO1.Delete();
-   
-    shaders1.Delete();
-
-    block.Delete();
     ImGui_ImplGlfwGL3_Shutdown();
     ImGui::DestroyContext();
     glfwDestroyWindow(window);

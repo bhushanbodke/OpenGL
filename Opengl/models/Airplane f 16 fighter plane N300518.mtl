@@ -1,0 +1,131 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 30.05.2018 09:49:43
+
+newmtl vio
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.8353 0.5882 0.7725
+	Kd 0.8353 0.5882 0.7725
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\New folder 2\aTexture.jpg
+	map_Kd D:\New folder 2\aTexture.jpg
+
+newmtl red
+	Ns 70.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.7843 0.3176 0.1765
+	Kd 0.7843 0.3176 0.1765
+	Ks 0.6300 0.6300 0.6300
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\New folder 2\Missols.jpg
+	map_Kd D:\New folder 2\Missols.jpg
+
+newmtl Mat_win
+	Ns 75.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0196 0.0196 0.0196
+	Kd 0.6980 0.6000 0.3294
+	Ks 0.5948 0.5948 0.5948
+	Ke 0.3216 0.3216 0.3216
+	map_refl Map__121_VRayHDRI.tga
+
+newmtl m2
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.8157 0.9059 0.7686
+	Kd 0.8157 0.9059 0.7686
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\New folder 2\MISSOLS2.jpg
+	map_Kd D:\New folder 2\MISSOLS2.jpg
+
+newmtl green
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5216 0.7216 0.5294
+	Kd 0.5216 0.7216 0.5294
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\New folder 2\MISSOLS3.jpg
+	map_Kd D:\New folder 2\MISSOLS3.jpg
+
+newmtl m4
+	Ns 70.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.3608 0.3804 0.8118
+	Kd 0.3608 0.3804 0.8118
+	Ks 0.6300 0.6300 0.6300
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\New folder 2\MISSOLS4.jpg
+	map_Kd D:\New folder 2\MISSOLS4.jpg
+
+newmtl standart_metal
+	Ns 43.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.7373 0.6941 0.9098
+	Kd 0.7373 0.6941 0.9098
+	Ks 0.6660 0.6660 0.6660
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\New folder 2\MGalva01.jpg
+	map_Kd D:\New folder 2\MGalva01.jpg
+	map_bump D:\New folder 2\MGalva01.jpg
+	bump D:\New folder 2\MGalva01.jpg
+
+newmtl yellow
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.9216 0.5725 0.2627
+	Kd 0.9216 0.5725 0.2627
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\New folder 2\Wheel-11.jpg
+	map_Kd D:\New folder 2\Wheel-11.jpg
+
+newmtl Plastic
+	Ns 70.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.3098 0.3098 0.3098
+	Kd 0.3098 0.3098 0.3098
+	Ks 0.6300 0.6300 0.6300
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\New folder 2\???\Dirt bl.jpg
+	map_Kd D:\New folder 2\???\Dirt bl.jpg
+	map_bump D:\New folder 2\???\Dirt bl.jpg
+	bump D:\New folder 2\???\Dirt bl.jpg

@@ -1,8 +1,8 @@
+#include "Utils.h"
 #include "EBO.h"
 #include "errorhandle.h"
 
-EBO::EBO(GLuint* indices , GLsizeiptr size,unsigned int count)
-    :count(count)
+EBO::EBO(GLuint* indices , GLsizeiptr size)
 {
     GLCALL(glGenBuffers(1, &ID));
     GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID));

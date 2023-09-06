@@ -4,8 +4,7 @@ class EBO
 {
     public:
         GLuint ID;
-        unsigned int count;
-        EBO(GLuint* vertices , GLsizeiptr size ,unsigned int count );
+        EBO(GLuint* indices , GLsizeiptr size);
 
         void bind();
         void unbind();

@@ -1,11 +1,13 @@
 #include "VBO.h"
-#include "errorhandle.h"
+#include "Utils.h"
+
 VBO::VBO(GLfloat* vertices , GLsizeiptr size)
 {
     GLCALL(glGenBuffers(1, &ID));
     GLCALL(glBindBuffer(GL_ARRAY_BUFFER, ID));
     GLCALL(glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW));
 }
+
 void VBO::bind()
 {
     GLCALL(glBindBuffer(GL_ARRAY_BUFFER, ID));

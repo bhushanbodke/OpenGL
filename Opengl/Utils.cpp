@@ -1,16 +1,19 @@
 #include "Utils.h"
 
 
-float FPS(float currentFrame, double& LastFrame, int& frames)
+int FPS(float currentFrame, double& LastFrame, int& frames)
 {
+	static int lastFps;
 	double deltaTime = currentFrame - LastFrame;
 	if (deltaTime >= 1.0f)
 	{
-		float fps =(float) frames / deltaTime;
+		int fps =(float) frames / deltaTime;
+		fps = fps;
 		std::cout << "FPS :" << fps << "\r";
 		frames = 0.0f;
 		LastFrame = currentFrame;
+		lastFps = fps;
 		return fps;
 	}
-	return 0.0f;
+	return lastFps;
 }

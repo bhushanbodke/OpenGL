@@ -12,18 +12,16 @@
 #include <Imgui/imgui_impl_glfw_gl3.h>
 #include <Tests/TestClearColor.h>
 #include <vector>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include <assimp/Importer.hpp>
 #include "ShaderClass.h"
-#include "VBO.h"
-#include "VAO.h"
-#include "EBO.h"
 #include "errorhandle.h"
-#include "renderer.h"
-#include  "texture.h"
 #include "glm/glm.hpp"
 #include "KeyBoard.h"
 #include "Mouse.h"
 #include "Camera.h"
 
 
-float FPS(float currentFrame,double& LastFrame, int& frames);
+int FPS(float currentFrame,double& LastFrame, int& frames);
 void ToggleHideMouse(GLFWwindow* window);
