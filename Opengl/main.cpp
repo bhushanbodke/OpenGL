@@ -212,22 +212,22 @@ int main(void)
              shader.SetUniform1i("is_DirLights", 0);
              shader.SetUniform1i("is_PointLights", 1);
              shader.SetUniformVec3("point_lights[0].Pos", pointLightPositions[0]);
-             shader.SetUniformVec3("point_lights[0].ambient", 0.05f, 0.05f, 0.05f);
-             shader.SetUniformVec3("point_lights[0].diffuse", 0.8f, 0.8f, 0.8f);
-             shader.SetUniformVec3("point_lights[0].specular", 1.0f, 1.0f, 1.0f);
+             shader.SetUniformVec3("point_lights[0].ambient", lightCol);
+             shader.SetUniformVec3("point_lights[0].diffuse", lightCol);
+             shader.SetUniformVec3("point_lights[0].specular", lightCol);
              shader.SetUniform1F("point_lights[0].intensity", intensity);
 
              shader.SetUniformVec3("point_lights[1].Pos", pointLightPositions[1]);
-             shader.SetUniformVec3("point_lights[1].ambient", 0.05f, 0.05f, 0.05f);
-             shader.SetUniformVec3("point_lights[1].diffuse", 0.8f, 0.8f, 0.8f);
-             shader.SetUniformVec3("point_lights[1].specular", 1.0f, 1.0f, 1.0f);
+             shader.SetUniformVec3("point_lights[1].ambient", lightCol);
+             shader.SetUniformVec3("point_lights[1].diffuse", lightCol);
+             shader.SetUniformVec3("point_lights[1].specular", lightCol);
              shader.SetUniform1F("point_lights[1].intensity", intensity);
 
              backpack.Draw(shader);
 
              cubeShader.Activate();
-             cube1.Draw(cubeShader, projection * view, pointLightPositions[0], glm::vec3(1.0));
-             cube2.Draw(cubeShader,projection * view,pointLightPositions[1], glm::vec3(1.0));
+             cube1.Draw(cubeShader, projection * view, pointLightPositions[0], lightCol);
+             cube2.Draw(cubeShader,projection * view,pointLightPositions[1], lightCol);
              
 
            
@@ -245,10 +245,11 @@ int main(void)
             ImGui::Begin("window");
             
             ImGui::ColorEdit4("BackGround Color", &backColor.r);
-            ImGui::DragFloat("Intensity", &intensity,1.0,0.0,100.0);
+            ImGui::DragFloat("Intensity", &intensity,0.50,0.0,50.0);
 
             ImGui::Text(("No of Triangles : " + std::to_string(backpack.NoTriangles)).c_str());
             ImGui::Text(("Draw Calls : " + std::to_string(backpack.GetMeshNo())).c_str());
+            ImGui::ColorEdit4("Light Color", &lightCol.r);
            
             ImGui::End();
             ImGui::Render();
